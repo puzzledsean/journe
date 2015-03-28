@@ -47,7 +47,7 @@ function calculateDistances() {
       origins: [origin1],
       destinations: [destinationA],
       travelMode: google.maps.TravelMode.DRIVING,
-      unitSystem: google.maps.UnitSystem.METRIC,
+      unitSystem: google.maps.UnitSystem.IMPERIAL,
       avoidHighways: false,
       avoidTolls: false
     }, callback);
@@ -60,6 +60,9 @@ function callback(response, status) {
     var origins = response.originAddresses;
     var destinations = response.destinationAddresses;
     var outputDiv = document.getElementById('outputDiv');
+    var timeDiv = document.getElementById('time-display');
+    var hiddenDiv = document.getElementById('time');
+    alert(hiddenDiv.value)
     outputDiv.innerHTML = '';
     deleteOverlays();
 
@@ -71,6 +74,10 @@ function callback(response, status) {
         outputDiv.innerHTML += origins[i] + ' to ' + destinations[j]
             + ': ' + results[j].distance.text + ' in '
             + results[j].duration.text + '<br>';
+        timeDiv.innerHTML = 'Travel time: ' + results[j].duration.text
+        hiddenDiv.value = convertToMS(results[j].duration.text)
+        alert(hiddenDiv.value)
+
       }
     }
   }
@@ -99,6 +106,28 @@ function addMarker(location, isDestination) {
     }
   });
 }
+
+function convertToMS(timeString) {
+  var stringArray = timeString.split(" ")
+  var seconds = 0;
+  var onHours = false
+  if (stringArray.length == 4) {
+    onHours = true;
+  }
+  for (index in stringArray) {
+    var num = parseInt(stringArray[index])
+    if (!isNaN(num) && onHours) {
+      seconds = num * 3600;
+      onHours = false;
+    }
+    else if (!isNaN(num)) {
+      seconds = seconds + num * 60;
+    }
+  }
+  return seconds * 1000;
+}
+
+
 
 function deleteOverlays() {
   for (var i = 0; i < markersArray.length; i++) {

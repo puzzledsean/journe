@@ -40,6 +40,7 @@
       }
       #outputDiv {
         font-size: 11px;
+        background-color: white;
       }
       #time-display {
       	font-size: 30px;
@@ -55,19 +56,18 @@
     <script src="map_distance.js"></script>
   </head>
   <body onload="javscript:calculateDistances()" background="img/journey.jpg">
+  <input type="hidden" id="time" value= ''>
     <div id="content-pane">
+      <div id="outputDiv"></div>
       <div id="playlist">
         <!-- Spotify content goes here -->
       </div>
-      <div id="outputDiv"></div>
     </div>
     <div id="map-canvas"  style="background-color: white;"></div>
     <div id="time-display" class="btn-primary"><h1>Travel time: XX Minutes</h1></div>
 
 
-    <form name="dataStorage">
-        <input type="hidden" name="dataVals">
-    </form>
+
 
   </body>
 </html>
