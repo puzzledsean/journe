@@ -5,6 +5,16 @@
  */
 
 body {
+    content: "";
+    background: url(../img/road.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1; 
     overflow-x: hidden;
     font-family: "Roboto Slab","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
@@ -849,19 +859,6 @@ img::-moz-selection {
     background: 0 0;
 }
 
-div::after {
-  content: "";
-    background: url(../img/journey.jpg);
-    background-repeat: no-repeat;
-    background-size: 100%;
-  opacity: 0.3;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -1;   
-}
 
 body {
     webkit-tap-highlight-color: #fed136;
