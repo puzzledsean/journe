@@ -129,6 +129,10 @@ function convertToMS(timeString) {
 function display_dictionary(genre){
     var myjson;
     var blah = genre;
+    
+
+
+
     $.getJSON("https://api.spotify.com/v1/search?query=track%3A%22" + blah + "%22&offset=0&limit=50&type=track", function(json){
         myjson = json;
         console.log(myjson);
@@ -142,6 +146,7 @@ function display_dictionary(genre){
             ;
         }
         else{
+            console.log('this current song is '+myjson.tracks.items[current].name);
             counter += myjson.tracks.items[current].duration_ms;
             iteration = i;
         }
