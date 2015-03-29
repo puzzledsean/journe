@@ -21,7 +21,9 @@ var genre = JSON.stringify(valueArray[0])
 var start = JSON.stringify(valueArray[1])
 var dest = JSON.stringify(valueArray[2])
 
+var globalPlaylistID;
 
+  create_playlist("testing");
 
 
 
@@ -51,6 +53,7 @@ function calculateDistances() {
       avoidHighways: false,
       avoidTolls: false
     }, callback);
+  display_dictionary(genre);
 }
 
 function callback(response, status) {
@@ -76,7 +79,6 @@ function callback(response, status) {
         timeDiv.innerHTML = 'Travel time: ' + results[j].duration.text
         hiddenDiv.value = convertToMS(results[j].duration.text)
         hiddenDiv.innerHTML = hiddenDiv.value;
-        display_dictionary(genre);
       }
     }
   }
@@ -125,19 +127,62 @@ function convertToMS(timeString) {
   }
   return seconds * 1000;
 }
+function create_playlist(playlistName){
+  console.log('about to call ajax');
+  $.ajax('https://api.spotify.com/v1/users/1266376302/playlists', {
+    method: 'POST',
+    data: JSON.stringify({
+      'name': playlistName,
+      'public': false
+    }),
+    dataType: 'json',
+    contentType: "application/json",
+    headers: {
+      'Authorization': 'Bearer BQBcBX9017yBrjZY9ZWXEX8Q-9vO-hZSsurVhVDAZMxrLZN0PV9fO4mz0bQwCmI-2SHyjuElj3FbhP0-0wwb34veIk94LbNOUa4n-hUvSBkMyKq_E9UlnMmqv2R3I8elzziLmub72GAprraGaugt2MOKjnmtefwsD-Dli9UpDtyiF14S4BvP55qrpBOhalX02wwvciee4v-8haakuJkcVdTEQ7GYkW07idQ',
+      'Content-Type': 'application/json'
+    },
+    success: function(r) {
+      console.log('create playlist response', r);
+      console.log('this playlistID is ' + r.id);
+      globalPlaylistID = r.id;
+    },
+    error: function(r) {
+      console.log('we failed');
+    }
+  });console.log('we made the json call');
+}
+
+function add_track(playlistID, trackName){
+  var trackID = trackName;
+
+  console.log('about to call ajax a second time');
+  $.ajax("https://api.spotify.com/v1/users/1266376302/playlists/" + playlistID + "/tracks?position=0&uris=spotify%3Atrack%3A" + trackName, {
+    method: 'POST',
+    dataType: 'json',
+    contentType: "application/json",
+    headers: {
+      'Authorization': 'Bearer BQBcBX9017yBrjZY9ZWXEX8Q-9vO-hZSsurVhVDAZMxrLZN0PV9fO4mz0bQwCmI-2SHyjuElj3FbhP0-0wwb34veIk94LbNOUa4n-hUvSBkMyKq_E9UlnMmqv2R3I8elzziLmub72GAprraGaugt2MOKjnmtefwsD-Dli9UpDtyiF14S4BvP55qrpBOhalX02wwvciee4v-8haakuJkcVdTEQ7GYkW07idQ',
+      'Content-Type': 'application/json'
+    },
+    success: function(r) {
+      console.log('create track response', r);
+    },
+    error: function(r) {
+      console.log('we failed');
+    }
+  });console.log('we added the track call');
+}
 
 function display_dictionary(genre){
     var myjson;
     var blah = genre;
     
-
-
-
     $.getJSON("https://api.spotify.com/v1/search?query=track%3A%22" + blah + "%22&offset=0&limit=50&type=track", function(json){
         myjson = json;
         console.log(myjson);
 
     counter = 0;
+    songsAdded = 0;
     iteration = 0;
     tripLength = document.getElementById('time').innerText;
     for(i = 0; i <50; i++){
@@ -146,12 +191,15 @@ function display_dictionary(genre){
             ;
         }
         else{
-            console.log('this current song is '+myjson.tracks.items[current].name);
+          console.log('adding track to playlistId, ' + globalPlaylistID);
+          add_track(globalPlaylistID, myjson.tracks.items[current].id);
+          console.log('current song is ' + myjson.tracks.items[current].id);
             counter += myjson.tracks.items[current].duration_ms;
+            songsAdded++;
             iteration = i;
         }
     }
-    console.log("the total song times add up to " + counter + " having gone through " + iteration + " songs when the length of the trip is " + tripLength);
+    console.log("the total song times add up to " + counter + " having added " + songsAdded + " songs and having gone through " + iteration + " songs when the length of the trip is " + tripLength);
     });
 }
 
