@@ -62,7 +62,6 @@ function callback(response, status) {
     var outputDiv = document.getElementById('outputDiv');
     var timeDiv = document.getElementById('time-display');
     var hiddenDiv = document.getElementById('time');
-    alert(hiddenDiv.value)
     outputDiv.innerHTML = '';
     deleteOverlays();
 
@@ -76,7 +75,6 @@ function callback(response, status) {
             + results[j].duration.text + '<br>';
         timeDiv.innerHTML = 'Travel time: ' + results[j].duration.text
         hiddenDiv.value = convertToMS(results[j].duration.text)
-        alert(hiddenDiv.value)
         hiddenDiv.innerHTML = hiddenDiv.value;
         display_dictionary(genre);
       }
