@@ -43,31 +43,39 @@
       }
       #outputDiv {
         font-size: 11px;
-        background-color: white;
+        background-color: #fed136;
       }
       #time-display {
       	font-size: 30px;
       	width: 50%;
-      	padding-left: 5%;
       	padding-top: 2%;
       	text-align: center;
-      	background-color: #FFE54F;
+      	background-color: #00ACFF;
       	position:relative;
       	top: 5%;
+      }
+      #time {
+        color:transparent;
+      }
+      #playlist {
+        width: 50%;
+        height: 80%;
+        padding-top: 5%;
+        padding-right: 5%;
+        vertical-align: center;
       }
     </style>
     <script src="map_distance.js" type="text/javascript"></script>
   </head>
-  <body background="img/journey.jpg">
-    <script type="text/javascript">calculateDistances()</script>
-  <h1 id="time" value= ''>
-</h1>
+  <body background="img/journey.jpg" onload="javascript:calculateDistances()">
+  <div type="hidden" id="time" value= ''>
+</div>
 
     <div id="content-pane">
       <div id="outputDiv">     
 </div>
       <div id="playlist">
-        <!-- Spotify content goes here -->
+        <iframe src="https://embed.spotify.com/?uri=spotify%3Auser%3Aqlmhuge%3Aplaylist%3A6Df19VKaShrdWrAnHinwVO&theme=white" width="440" height="520" frameborder="0" allowtransparency="true"></iframe>
       </div>
     </div>
     <div id="map-canvas"  style="background-color: white;"></div>
