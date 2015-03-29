@@ -78,7 +78,7 @@ function callback(response, status) {
         hiddenDiv.value = convertToMS(results[j].duration.text)
         alert(hiddenDiv.value)
         hiddenDiv.innerHTML = hiddenDiv.value;
-        display_dictionary();
+        display_dictionary(genre);
       }
     }
   }
@@ -130,7 +130,7 @@ function convertToMS(timeString) {
 
 function display_dictionary(genre){
     var myjson;
-    var blah = "misery";
+    var blah = genre;
     $.getJSON("https://api.spotify.com/v1/search?query=track%3A%22" + blah + "%22&offset=0&limit=50&type=track", function(json){
         myjson = json;
         console.log(myjson);
